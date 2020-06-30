@@ -1,0 +1,26 @@
+{
+    "languageserver": {
+        "golang": {
+            "command": "gopls",
+            "args":["serve", "-debug", "0.0.0.0:8484", "-rpc.trace"],
+            "rootPatterns": [
+                "go.mod"
+            ],
+            "filetypes": [
+                "go"
+            ]
+        },
+        "dockerfile": {
+            "command": "docker-langserver",
+            "filetypes": ["dockerfile"],
+            "args": ["--stdio"]
+        },
+        "bash": {
+            "command": "bash-language-server",
+            "args": ["start"],
+            "filetypes": ["sh"]
+        },
+    },
+    "suggest.triggerAfterInsertEnter": true,
+    "coc.preferences.extensionUpdateCheck": "daily"
+}

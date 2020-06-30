@@ -1,0 +1,15 @@
+snippet tryef "Try / Except / Else / Finally" b
+try:
+	${1:${VISUAL:pass}}
+except${2: ${3:Exception} as ${4:e}}:
+	${5:raise}
+else:
+	${6:pass}
+finally:
+	${7:pass}
+endsnippet
+
+snippet sn "Try / Except / Else / Finally" b
+from pysnooper import snoop
+@snoop()
+endsnippet

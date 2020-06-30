@@ -1,0 +1,321 @@
+snippet p "p" w
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	$1
+}
+endsnippet
+
+
+snippet q "注释" w
+/*
+$1
+*/
+endsnippet
+
+snippet forj "for int loop reverse"
+for ${2:i} := len(${1:count})-1; $2 >= 0; $2${3:--} {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet fori "for int loop"
+for ${2:i} := 0; $2 < len(${1:count}); $2${3:++} {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet forl "链表遍历"
+temp := ${1:head} // 创建一个辅助节点
+var i int    // 函数结束的时候i为链表长度
+if temp == nil {
+	return head
+} else {
+	fmt.Println(temp.Val)
+}
+for temp.Next != nil {
+	fmt.Println(temp.Next.Val)
+	i++
+	temp = temp.Next // 让temp不断的指向下一个节点
+}
+return $1
+endsnippet
+
+snippet forll "链表遍历"
+preHead := new(ListNode)
+preHead.Next = head
+temp := preHead
+for temp != nil {
+	fmt.Println(temp.Val)
+	temp = temp.Next
+}
+return preHead.Next
+endsnippet
+
+# 删除链表的当前节点
+# *Node = *(Node.Next)
+
+snippet stack "这是一个栈" b
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+type Stack struct {
+	Data    [10]int
+	Top     int
+	MaxSize int
+}
+
+func NewStack(size int) *Stack {
+	s := Stack{
+		MaxSize: size,
+		Top:     -1,
+	}
+	return &s
+}
+func (s *Stack) isFull() bool {
+	if s.Top == s.MaxSize-1 {
+		return true
+	}
+	return false
+}
+func (s *Stack) isEmpty() bool {
+	if s.Top == -1 {
+		return true
+	}
+	return false
+}
+
+//提供一个出栈方法
+func (s *Stack) Pop() (int, error) {
+	if s.isEmpty() {
+		return 0, errors.New("stack empty")
+	}
+	v := s.Data[s.Top]
+	s.Top--
+	return v, nil
+}
+
+//提供一个入栈方法
+func (s *Stack) Push(v int) (err error) {
+	if s.isFull() {
+		fmt.Println("stack is full")
+		return errors.New("stack full")
+	}
+	s.Top++
+	s.Data[s.Top] = v
+	return nil
+}
+
+//打印
+func (s *Stack) Print() {
+	for i := s.Top; i >= 0; i-- {
+		fmt.Print(s.Data[i], ",")
+	}
+}
+
+func main() {
+	s := NewStack(5)
+	s.Push(1)
+	s.Push(2)
+	s.Push(3)
+	if data, err := s.Pop(); err == nil { // 没有 问题的时候
+		fmt.Println(data)
+	}
+	fmt.Println(s.Pop())
+	fmt.Println(s.Pop())
+	fmt.Println(s.Pop())
+	s.Push(8)
+	s.Push(10)
+	s.Print()
+}
+endsnippet
+
+snippet quick "quick_sort" b
+func QuickSort(arr []int, left, right int) {
+	pivot := arr[left]//找个中心点
+	low, high := left, right //使用二个指针,一个在左,一个在右
+	for low < high {//不重合的状态下,循环
+		for low < high && arr[high] >= pivot {//右边一直大于中心值,则向前移动high指针
+			high --
+		}
+		arr[low] = arr[high]//当小于中心点,则让数据交互到最低点
+		for low < high && arr[low] <= pivot {//左边的一直小于中心值,则向前移动low指针
+			low ++
+		}
+		arr[high] = arr[low]//当大于中心点,则让数据交互到最高点
+	}
+	arr[low] = pivot//将中心点的值填入到中心位置
+	if low - left > 1 {
+		QuickSort(arr, left, low-1)
+	}
+	if right - low > 1 {
+		QuickSort(arr, low+1, right)
+	}
+}
+endsnippet
+snippet treeTwo "twoTree" b
+if t1 == nil && t2 == nil { // 判断是否同时结束
+	return true
+}
+if t1 == nil || t2 == nil { // 有一方先结束
+	return false
+}
+endsnippet
+
+snippet dfs "dfs" b
+var res []int
+func ${1:dfs}(${2:root} *TreeNode) {
+	if $2 == nil { // 结束条件
+		return 
+	}
+	$1(root.Left)
+	res = append(res, root.Val) //中序输出
+	$1(root.Right)
+}
+endsnippet
+
+# 观念要转变, for 遍历数组 也是 模板 , tree 先序,中序, 后序都是 模板
+# tree 遍历 ,链表遍历 和 for 数组 遍历 没什么不同, 只是这些的 模板 有一些 差距
+#for 遍历 的 少一点
+# 其余的 
+
+# 层次遍历 , 这种 相对于 dfs 添加了一个 名为 层的 东西, 树高为 len(res)
+snippet bfs "bfs" b
+var res [][]int
+func bfs(root *TreeNode) [][]int {
+	res = [][]int{}
+	dfs(root, 0)
+	return res
+}
+
+func dfs(root *TreeNode, level int) {
+	if root == nil { // 结束条件
+		return 
+	}
+	if len(res) == level {
+		res = append(res, []int{})
+	}
+	res[level] = append(res[level], root.Val)
+	dfs(root.Left, level+1)
+	dfs(root.Right, level+1)
+}
+endsnippet
+
+
+snippet bfs2 "bfs2" b
+func bfs(root *TreeNode) {
+	var queue = []*TreeNode{root}
+	var level int
+	for len(queue) > 0 {
+		length := len(queue)
+		for length > 0 {
+			length--
+			if queue[0].Left != nil {
+				queue = append(queue, queue[0].Left)
+			}
+			if queue[0].Right != nil {
+				queue = append(queue, queue[0].Right)
+			}
+			println(queue[0].Val) //当前节点值
+			println(level)        //层级
+			queue = queue[1:]
+		}
+		level++
+	}
+}
+endsnippet
+
+snippet treec "Tree迭代遍历" b
+func preorderTraversal(root *TreeNode) []int {
+	res := []int{}
+	stack := []*TreeNode{} //定义一个栈储存节点信息
+	if root == nil {
+		return res
+	}
+	for root != nil || len(stack) != 0 {
+		if root != nil {
+			res = append(res, root.Val) // 前序输出
+			stack = append(stack, root) // 节点入栈
+			root = root.Left
+		} else {
+			root = stack[len(stack)-1].Right
+			stack = stack[:len(stack)-1]
+			// root = root.Right
+		}
+	}
+	return res
+}
+func inorderTraversal(root *TreeNode) []int {
+	res := []int{}
+	stack := []*TreeNode{}
+	if root == nil {
+		return res
+	}
+	for root != nil || len(stack) != 0 {
+		if root != nil {
+			stack = append(stack, root) //节点入栈
+			root = root.Left           
+		} else {
+			res = append(res, stack[len(stack)-1].Val) // 中序输出
+			root = stack[len(stack)-1].Right           
+			stack = stack[:len(stack)-1]  
+		}
+	}
+	return res
+}
+func postorderTraversal(root *TreeNode) []int {
+	res := []int{}
+	stack := []*TreeNode{}
+	pre := &TreeNode{}
+	if root == nil {
+		return res
+	}
+	stack = append(stack, root)
+	for len(stack) != 0 {
+		cur := stack[len(stack)-1]
+		if (cur.Left == nil && cur.Right == nil) || (pre != nil && (pre == cur.Left || pre == cur.Right)) {
+			res = append(res, cur.Val)
+			pre = cur
+			stack = stack[:len(stack)-1]
+		} else {
+			if cur.Right != nil {
+				stack = append(stack, cur.Right)
+			}
+			if cur.Left != nil {
+				stack = append(stack, cur.Left)
+			}
+		}
+	}
+	return res
+}
+endsnippet
+
+snippet depth "树的高度" b
+func Depth(tree *BiTreeNode) int {
+	if tree == nil {
+		return 0
+	}
+	m := Depth(tree.left)
+	n := Depth(tree.right)
+	if m > n {
+		return m + 1
+	}
+	return n + 1
+}
+endsnippet
+
+
+
+
+
+# morris 遍历
+
+

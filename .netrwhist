@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =8
+let g:netrw_dirhist_8='/home/newman/.config/nvim/spell'
+let g:netrw_dirhist_7='/home/newman/.config/nvim/plugged'
+let g:netrw_dirhist_6='/etc/v2ray'
+let g:netrw_dirhist_5='/home/newman/Desktop/one/folder/bili_go源码/go-common/app/admin/main/filter/cmd'
+let g:netrw_dirhist_4='/home/newman/Desktop/one/folder/bili_go源码/go-common/app/admin/main/filter'
+let g:netrw_dirhist_3='/home/newman/Desktop/one/folder/bili_go源码/go-common/app/admin/main/filter/cmd'
+let g:netrw_dirhist_2='/home/newman/Desktop/one/folder/bili_go源码/go-common/app/admin/main/filter'
+let g:netrw_dirhist_1='/home/newman/Desktop/one/folder/bili_go源码/go-common/app/admin/main'
+let g:netrw_dirhist_0='/home/newman/a.sql'
+let g:netrw_dirhist_9='/home/newman/Desktop/02-12/app_新/web_new/web/src/component/index/map'
